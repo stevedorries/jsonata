@@ -32,6 +32,7 @@ var jsonata = (function() {
         ';': 80,
         ':': 80,
         '?': 20,
+        '||':20,
         '+': 50,
         '-': 50,
         '*': 60,
@@ -983,6 +984,17 @@ var jsonata = (function() {
             if (node.id === ':') {
                 // else condition
                 advance(":");
+                this.else = expression(0);
+            }
+            return this;
+        });
+        infix("||", operators['||'], function (left) {
+            this.type = 'condition';
+            this.condition = left;
+            this.then = left;
+            if (node.id === ':') {
+                // else condition
+                advance();
                 this.else = expression(0);
             }
             return this;
